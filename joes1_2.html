@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>Joe's Hotdogs</title>
+    <style>
+      .title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 30px;
+      }
+      #innerMenuContainer,
+      #innerMenuContainer2 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .menuItemContainer {
+        border-top: 3px solid brown;
+        border-left: 3px solid brown;
+        border-right: 3px solid brown;
+        display: flex;
+        width: 215px;
+      }
+      #sauerkrautMenuItemContainer {
+        border-bottom: 3px solid brown;
+      }
+      .menuItem {
+        width: 100px;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        background-color: lightyellow;
+      }
+      .menuPrice {
+        padding: 20px;
+        border-left: 3px solid brown;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(243, 152, 152);
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Representing the items using an associative array
+      const menuAssociativeArr = [];
+      menuAssociativeArr['hotdog'] = 4;
+      menuAssociativeArr['fries'] = 3.5;
+      menuAssociativeArr['soda'] = 1.5;
+      menuAssociativeArr['sauerkraut'] = 1;
+
+      // Representing the items using a JSON object
+      const menuJsonObj = {
+        'hotdog': '4.00',
+        'fries': '3.50',
+        'soda': '1.50',
+        'sauerkraut': '1.00',
+      };
+
+      // Display a menu of items on the page using a JSON object
+      document.write(
+        `<div class='menuContainer' id='menuContainer'><div class='title' id='menuTitle'>Menu</div><br /><div id='innerMenuContainer'></div></div><br />`
+      );
+      let divString = '';
+      for (currentItem in menuJsonObj) {
+        const capitalizedLetter = currentItem[0].toUpperCase();
+        const capitalizedItem = capitalizedLetter + currentItem.substring(1);
+        const currentPrice = menuJsonObj[currentItem];
+        const currentDivString = `<div class='menuItemContainer' id=${
+          currentItem + 'MenuItemContainer'
+        }><div class='menuItem' id=${currentItem}>${capitalizedItem}</div><div class='menuPrice' id=${
+          currentItem + 'Price'
+        }>${'$' + currentPrice}</div></div>`;
+        divString += currentDivString;
+      }
+
+      innerMenuContainer.innerHTML += divString;
+
+      // Representing the items using a function object
+      function MenuItems(name, price, strPrice) {
+        this.name = name;
+        this.price = price;
+        this.strPrice = strPrice;
+        this.createDiv = () =>
+          `<div class='menuItemContainer' id=${
+            this.name.toLowerCase() + 'MenuItemContainer'
+          }><div class='menuItem' id=${this.name + '2'}>${
+            this.name
+          }</div><div class='menuPrice' id=${this.name + 'Price' + '2'}>${
+            '$' + this.strPrice
+          }</div></div>`;
+      }
+
+      const hotdog = new MenuItems('Hotdog', 4, '4.00');
+      const fries = new MenuItems('Fries', 3.5, '3.50');
+      const soda = new MenuItems('Soda', 1.5, '1.50');
+      const sauerkraut = new MenuItems('Sauerkraut', 1, '1.00');
+
+      const arrFuncObj = [hotdog, fries, soda, sauerkraut];
+
+      // Display a menu of items on the page using the array of objects
+      document.write(
+        `<div class='menuContainer' id='menuContainer2'><div class='title' id='menuTitle2'>Menu</div><br /><div id='innerMenuContainer2'></div></div><br />`
+      );
+      const menuFuncObj = arrFuncObj.map((menuItem) => menuItem.createDiv());
+      const innerMenuContainer2 = document.getElementById(
+        'innerMenuContainer2'
+      );
+      innerMenuContainer2.innerHTML += menuFuncObj.join('');
+    </script>
+  </body>
+</html>
